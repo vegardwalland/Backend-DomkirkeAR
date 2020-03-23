@@ -7,8 +7,7 @@ const collection = 'items'
 handler.use(middleware);
 
 handler.get(async (req, res) => {
-    let doc = await req.db.collection(collection).findOne(req);
-    res.json(doc);
+    res.json(db);
 });
 
 export default handler;

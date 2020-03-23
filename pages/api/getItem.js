@@ -2,7 +2,7 @@ import nextConnect from 'next-connect';
 import middleware from '../../middleware/middleware';
 
 const handler = nextConnect();
-const collection = 'inventory'
+const collection = 'items'
 
 handler.use(middleware);
 

@@ -5,7 +5,7 @@ function fetcher(url) {
 }
 
 export default function Index() {
-    const { data, error } = useSWR('/api/getObject', fetcher);
+    const { data, error } = useSWR('/api/getItem', fetcher);
 
     let item = data?.item;
     let tags = data?.tags;

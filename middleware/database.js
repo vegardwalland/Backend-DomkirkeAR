@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 import nextConnect from 'next-connect';
 
 const url = process.env.MONGODB_URI;
-const dbName = 'arStavanger';
+const dbName = 'heroku_3bp53ctw';
 
 const client = new MongoClient(url, {
     useNewUrlParser: true,
@@ -11,7 +11,9 @@ const client = new MongoClient(url, {
 
 async function database(req, res, next) {
     if (!client.isConnected()) {
+        console.log("DB not connected. Connecting...");
         await client.connect();
+        console.log("DB connected.");
     }
 
     req.dbClient = client;

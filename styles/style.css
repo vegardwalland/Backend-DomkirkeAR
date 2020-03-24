@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+
+
+
+
+.nav-item {
+  @apply inline-block border-l border-t border-r rounded-t py-2 mr-2 text-blue-500 font-semibold;
+
+}
+
+.nav-item:hover {
+  @apply text-blue-800;
+}
+
+.form-title {
+  @apply block tracking-wide text-blue-500 text-xl font-bold pt-2;
+}
+
+.form-main {
+  @apply w-full max-w-xl;
+}
+
+.form-div {
+  @apply flex flex-wrap mx-2 my-1;
+}
+
+.form-label {
+    @apply block tracking-wide text-gray-700 text-base font-bold my-2;
+}
+
+.form-pos-label {
+    @apply inline-block tracking-wide text-gray-700 text-xs font-bold mb-3 mr-1;
+}
+
+.form-input {
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-500 rounded py-3 px-4 leading-tight;
+}
+
+.form-input:hover, .form-input:focus {
+    @apply bg-white;
+}
+
+.form-pos-input {
+    @apply bg-gray-200 text-gray-700 border border-gray-500 rounded;
+}
+
+.fieldset-position {
+    @apply w-full;
+}
+
+.btn {
+    @apply font-bold py-2 px-4 rounded mr-4;
+}
+
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+
+.btn-blue:hover {
+    @apply bg-blue-800;
+}
+
+@tailwind utilities;

@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import Layout from '../components/MyLayout';
 
 function fetcher(url) {
     return fetch(url).then(r => r.json());
@@ -17,6 +18,7 @@ export default function Index() {
     if (error) item = 'Failed to fetch the item';
 
     return (
+      <Layout>
         <main className="center">
           <div className="quote">{item}</div>
           {item} er:
@@ -35,7 +37,7 @@ export default function Index() {
             }
             .quote {
               font-family: cursive;
-              color: #e243de;
+              color: #4299e1;
               font-size: 24px;
               padding-bottom: 10px;
             }
@@ -46,5 +48,6 @@ export default function Index() {
             }
           `}</style>
         </main>
+        </Layout>
       );
 }

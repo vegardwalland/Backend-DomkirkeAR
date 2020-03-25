@@ -3,16 +3,16 @@ import '../styles/style.css';
 
 
 const Header = () => (
-  <div class="border-b border-blue-500 w-full">
-    <ul class="flex ml-4">
-      <li class="mr-4">
-        <a class="nav-item" href="/">Home</a>
+  <div className="border-b border-blue-500 w-full">
+    <ul className="flex ml-4">
+      <li className="mr-4">
+        <a className="nav-item" href="/">Home</a>
         </li>
-      <li class="mr-4"> 
-        <a class="nav-item" href="/add">Add</a>
+      <li className="mr-4"> 
+        <a className="nav-item" href="/add">Add</a>
       </li>
-      <li class="mr-1"> 
-        <a class="nav-item" href="/items">Browse</a>
+      <li className="mr-1"> 
+        <a className="nav-item" href="/items">Browse</a>
       </li>
     </ul>
   </div>

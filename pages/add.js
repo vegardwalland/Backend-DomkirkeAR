@@ -1,7 +1,7 @@
 import Layout from '../components/MyLayout';
 import cookie from 'js-cookie';
 import Router from 'next/router';
-import useEffect from 'react';
+import { useEffect } from 'react';
 const jwt = require('jsonwebtoken');
 const jwtSecret = 'SUPERSECRETE20220';
 

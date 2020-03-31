@@ -1,14 +1,18 @@
-import Link from 'next/link';
 import '../styles/style.css';
 import cookie from 'js-cookie';
 import Router from 'next/router';
 const jwt = require('jsonwebtoken');
 const jwtSecret = 'SUPERSECRETE20220';
 
-let logout;
+//Check if a user is logged in
+let logout = false;
 if(jwt.decode(cookie.get("token"), jwtSecret) != null){
-  console.log(jwt.decode(cookie.get("token"), jwtSecret).email);
+  let decoded = jwt.decode(cookie.get("token"), jwtSecret);
   logout = true;
+  //Check if the token is expired
+  if(decoded.exp < Date.now().valueOf() /1000) {
+    logout = false;
+  }
 }
 
 const Header = () => (
@@ -17,6 +21,7 @@ const Header = () => (
         <a className="nav-item" href="/add">Add</a>
         <a className="nav-item" href="/items">Browse</a>
         <div className="float-right mr-2">
+          {/*Only show logout button if user is logged in*/}
           {logout && (
             <button className="nav-item"
             onClick={() => {

@@ -19,8 +19,6 @@ function findUser(db, email, callback) {
 }
   
   function createUser(db, email, password, callback) {
-    console.log("User = " + email);
-    console.log("Password = " + password);
     const collection = db.collection('user');
     try {
         argon2.hash(password)
@@ -72,6 +70,7 @@ function findUser(db, email, callback) {
           if (!user) {
             // proceed to Create
             createUser(db, email, password, function(creationResult) {
+              //If user was created, create token with user info
               if (creationResult.ops.length === 1) {
                 const user = creationResult.ops[0];
                 const token = jwt.sign(

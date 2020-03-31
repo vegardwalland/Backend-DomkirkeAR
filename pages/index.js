@@ -23,10 +23,10 @@ function Home() {
           <meta classname="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <main className="relative">
-          <h1 className=" text-center text-blue-500 text-3xl mb-6">Gamle Stavanger AR-portal</h1>
+          <h1 className=" text-center text-3xl mb-6">Gamle Stavanger AR-portal</h1>
 
           {loggedIn && (
-            <div className="text-center text-blue-500 text-xl">
+            <div className="text-center text-xl">
               <h2 className="mb-4">Welcome {data.email}!</h2>
               <button className="btn btn-blue"
                 onClick={() => {
@@ -38,7 +38,7 @@ function Home() {
             </div>
           )}
           {!loggedIn && (
-            <div className="text-center text-blue-500 text-xl">
+            <div className="text-center text-xl">
               <Link href="/login">
                 <a className="btn btn-blue">Login</a>
               </Link>

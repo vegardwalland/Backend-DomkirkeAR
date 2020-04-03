@@ -1,50 +1,38 @@
-import useSWR from 'swr';
+import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 
-function fetcher(url) {
-    return fetch(url).then(r => r.json());
-}
-
-export default function Index() {
-    const { data, error } = useSWR('/api/getItem', fetcher);
-
-    let item = data?.item;
-    let tags = data?.tags;
-
-    if (!data){
-      item = 'Loading';
-      tags = [''];
-    }
-    if (error) item = 'Failed to fetch the item';
-
-    return (
+const Index = props => (
         <main className="center">
-          <div className="quote">{item}</div>
-          {item} er:
-          <ul>
-            {tags.map(tag => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-    
-          <style jsx>{`
-            main {
-              width: 90%;
-              max-width: 900px;
-              margin: 300px auto;
-              text-align: center;
-            }
-            .quote {
-              font-family: cursive;
-              color: #e243de;
-              font-size: 24px;
-              padding-bottom: 10px;
-            }
-            .author {
-              font-family: sans-serif;
-              color: #559834;
-              font-size: 20px;
-            }
-          `}</style>
-        </main>
-      );
-}
+            <ul>
+              {props.itemList.map((item, index) => (
+                  <li key={index}>
+                    <Link href="/items/[id]" as={`/items/${item['id']}`}>
+                      <a>{item["name"]}</a>
+                    </Link>
+                  </li>
+              ))}
+            </ul>
+
+
+            <style jsx>{`
+              main {
+                width: 90%;
+                margin: 100px auto;
+              }
+            `}</style>
+          </main>
+);
+
+Index.getInitialProps = async function() {
+  const apiUrl = (process.env.API_URL ? process.env.API_URL : 'http://localhost:3000');
+  const res = await fetch(apiUrl + '/api/items');
+  const data = await res.json();
+
+  console.log(`Show data fetched. Count: ${data.itemList.length}`);
+
+  return {
+    itemList: data["itemList"]
+  };
+};
+
+export default Index;

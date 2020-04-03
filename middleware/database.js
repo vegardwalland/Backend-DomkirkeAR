@@ -1,10 +1,10 @@
 import { MongoClient } from 'mongodb';
 import nextConnect from 'next-connect';
 
-const url = process.env.MONGODB_URI;
-const dbName = 'heroku_3bp53ctw';
+const uri = process.env.MONGODB_URI || process.env.DEVDB_URI;
+const dbName = process.env.MONGODB_URI ? 'heroku_3bp53ctw' : process.env.DEVDB_DB;
 
-const client = new MongoClient(url, {
+const client = new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

@@ -1,61 +1,70 @@
-import React, {useState} from 'react';
-import Router from 'next/router';
-import cookie from 'js-cookie';
 import Layout from '../components/MyLayout'
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useUser } from '../lib/hooks';
 
-const Login = () => {
-  const [loginError, setLoginError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = () => {
+  const router = useRouter();
+  const [errorMsg, setErrorMsg] = useState('');
+  const [user, { mutate }] = useUser();
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) router.replace('/');
+  }, [user]);
 
-  function handleSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    //call api
-    fetch('/api/auth', {
+    const body = {
+      username: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
+    };
+    const res = await fetch('/api/auth', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((r) => {
-        return r.json();
-      })
-      .then((data) => {
-        if (data && data.error) {
-          setLoginError(data.message);
-        }
-        if (data && data.token) {
-          //set cookie
-          cookie.set('token', data.token, {expires: 1});
-          Router.push('/');
-        }
-      });
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    console.log("result = " + res);
+    if (res.status === 200) {
+      const userObj = await res.json();
+      mutate(userObj);
+    } else {
+      setErrorMsg('Incorrect username or password. Try again!');
+    }
   }
+
   return (
     <Layout>
-      <form className="text-center text-blue-500 text-xl align-middle" onSubmit={handleSubmit}>
-        <p>Login</p>
+      <Head>
+        <title>Sign in</title>
+      </Head>
+      <h2>Sign in</h2>
+      <form className="text-center text-blue-500 text-xl align-middle" onSubmit={onSubmit}>
+      {errorMsg ? <p style={{ color: 'red' }}>{errorMsg}</p> : null}
+      <label htmlFor="email">
         <input className="mr-4"
-          name="email"
+          id="email"
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          placeholder="Email address"
         />
+      </label>
+      <label htmlFor="password">
         <input className="mr-4"
-          name="password"
+          id="password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          placeholder="Password"
         />
-        <input className="btn btn-blue" type="submit" value="Submit" />
-        {loginError && <p style={{color: 'red'}}>{loginError}</p>}
+      </label>
+        <button className="btn btn-blue" type="submit"> Sign in</button>
+        <Link href="/forgetpassword">
+          <a>Forget password</a>
+        </Link>
       </form>
     </Layout> 
   );
 };
 
-export default Login;
+export default LoginPage;

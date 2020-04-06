@@ -14,15 +14,22 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "argon2": "^0.26.1",
+    "bcryptjs": "^2.4.3",
+    "clean": "^4.0.2",
+    "connect-mongo": "^3.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "js-cookie": "^2.2.1",
     "mongodb": "^3.5.5",
     "next": "^9.3.0",
-    "next-connect": "^0.6.0",
+    "next-connect": "^0.6.1",
+    "next-session": "^3.0.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-markdown": "^4.3.1",
-    "swr": "^0.1.18"
+    "swr": "^0.1.18",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "postcss-preset-env": "^6.7.0",

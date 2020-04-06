@@ -1,70 +1,77 @@
-import React, {useState} from 'react';
-import cookie from 'js-cookie';
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import Router from 'next/router';
+import { useUser } from '../lib/hooks';
 
-const Signup = () => {
-    const [signupError, setSignupError] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  
-    function handleSubmit(e) {
-        e.preventDefault();
-        fetch('/api/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
-        })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data && data.error) {
-            setSignupError(data.message);
-            }
-            if (data && data.token) {
-            //set cookie
-            cookie.set('token', data.token, {expires: 2});
-            Router.push('/');
-            }
-        });
+const SignupPage = () => {
+  const [user, { mutate }] = useUser();
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // call whenever user changes (ex. right after signing up successfully)
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) Router.replace('/');
+  }, [user]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const body = {
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
+    };
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (res.status === 201) {
+      const userObj = await res.json();
+      // writing our user object to the state
+      mutate(userObj);
+    } else {
+      setErrorMsg(await res.text());
     }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>Du yu relly want to sign up?</p>
-      <label htmlFor="email">
-        email
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          name="email"
-          type="email"
-        />
-      </label>
+    <>
+      <Head>
+          <title>Sign up</title>
+      </Head>
+      <div>
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmit}>
+        {errorMsg ? <p style={{ color: 'red' }}>{errorMsg}</p> : null}
+          <label htmlFor="email">
+            email
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email address"
+            />
+          </label>
 
-      <br />
+          <br />
 
-      <label for="password">
-        password
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
-          type="password"
-        />
-      </label>
+          <label htmlFor="password">
+            password
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Create a password"
+            />
+          </label>
 
-      <br />
+          <br />
 
-      <input type="submit" value="Submit" />
-      {signupError && <p style={{color: 'red'}}>{signupError}</p>}
-    </form>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </>
   );
 };
 
-export default Signup;
+export default SignupPage;
 

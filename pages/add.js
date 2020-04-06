@@ -1,23 +1,18 @@
 import Layout from '../components/MyLayout';
-import cookie from 'js-cookie';
-import Router from 'next/router';
 import { useEffect } from 'react';
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'SUPERSECRETE20220';
-
-let authorized = false;
-if(jwt.decode(cookie.get("token"), jwtSecret) != null){
-  authorized = true;
-}
+import { useRouter } from 'next/router';
+import { useUser } from '../lib/hooks';
 
 function Add() {
 
-    useEffect(() => {
-        if(!authorized){
-            Router.replace('/');
-            return;
-        }
-    });
+    const router = useRouter();
+    const [user, { mutate }] = useUser();
+
+     useEffect(() => {
+    // redirect to home if user is authenticated
+    if (!user) router.replace('/');
+    }, [user]);
+
         return (
             <Layout>
                 <form action="/api/addItem" method="post" className="form-main">

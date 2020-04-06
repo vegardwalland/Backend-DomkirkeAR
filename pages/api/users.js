@@ -1,95 +1,48 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const argon2 = require('argon2');
-const v4 = require('uuid').v4;
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'SUPERSECRETE20220';
+import nextConnect from 'next-connect';
+import isEmail from 'validator/lib/isEmail';
+import normalizeEmail from 'validator/lib/normalizeEmail';
+import argon2 from 'argon2';
+import bcrypt from "bcryptjs";
+import middleware from '../../middleware/middleware';
+import { extractUser } from '../../lib/api-helpers';
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'simple-login-db';
+const handler = nextConnect();
 
-const client = new MongoClient(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+handler.use(middleware); // see how we're reusing our middleware
+
+// POST /api/users
+handler.post(async (req, res) => {
+  const { password } = req.body;
+  const email = normalizeEmail(req.body.email); // this is to handle things like jane.doe@gmail.com and janedoe@gmail.com being the same
+  if (!isEmail(email)) {
+    res.status(400).send('The email you entered is invalid.');
+    return; 
+  }
+  if (!password) {
+    res.status(400).send('Missing field(s)');
+    return;
+  }
+  // check if email existed
+  if ((await req.db.collection('users').countDocuments({ email })) > 0) {
+    res.status(403).send('The email has already been used.');
+  }
+  try {
+    var hashedPassword = await argon2.hash(password);
+  } catch (err) {
+    console.error(err);
+  }
+  const user = await req.db
+    .collection('users')
+    .insertOne({ email, password: hashedPassword})
+    .then(({ ops }) => ops[0]);
+  req.logIn(user, (err) => {
+    console.log(err);
+    if (err) throw err;
+    // when we finally log in, return the (filtered) user object
+    res.status(201).json({
+      user: extractUser(req),
+    });
+  });
 });
 
-function findUser(db, email, callback) {
-    const collection = db.collection('user');
-    collection.findOne({email}, callback);
-}
-  
-  function createUser(db, email, password, callback) {
-    const collection = db.collection('user');
-    try {
-        argon2.hash(password)
-        .then(hash => {
-        // Store hash in your password DB.
-        collection.insertOne(
-            {
-              userId: v4(),
-              email,
-              password: hash,
-            },
-            function(err, userCreated) {
-                assert.equal(err, null);
-                callback(userCreated);
-              },);
-            });
-    } catch (err) {
-        //Password not hashed
-        console.error(err);
-    }
-  }
-
-  export default (req, res) => {
-    if (req.method === 'POST') {
-      // signup
-      try {
-        assert.notEqual(null, req.body.email, 'Email required');
-        assert.notEqual(null, req.body.password, 'Password required');
-        assert.notEqual("", req.body.password, 'Password can\'t be blank');
-        assert.notEqual("", req.body.email, 'Email can\'t be blank');
-      } catch (bodyError) {
-        res.status(403).json({error: true, message: bodyError.message});
-        return;
-      }
-  
-      // verify email does not exist already
-      client.connect(function(err) {
-        assert.equal(null, err);
-        console.log('Connected to MongoDB server =>');
-        const db = client.db(dbName);
-        const email = req.body.email;
-        const password = req.body.password;
-  
-        findUser(db, email, function(err, user) {
-          if (err) {
-            res.status(500).json({error: true, message: 'Error finding User'});
-            return;
-          }
-          if (!user) {
-            // proceed to Create
-            createUser(db, email, password, function(creationResult) {
-              //If user was created, create token with user info
-              if (creationResult.ops.length === 1) {
-                const user = creationResult.ops[0];
-                const token = jwt.sign(
-                  {userId: user.userId, email: user.email},
-                  jwtSecret,
-                  {
-                    expiresIn: 3000, //50 minutes
-                  },
-                );
-                res.status(200).json({token});
-                return;
-              }
-            });
-          } else {
-            // User exists
-            res.status(403).json({error: true, message: 'Email exists'});
-            return;
-          }
-        });
-      });
-    }
-  };
+export default handler;

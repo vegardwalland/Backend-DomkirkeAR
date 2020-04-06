@@ -1,8 +1,8 @@
 import { MongoClient } from 'mongodb';
 import nextConnect from 'next-connect';
 
-const url = process.env.MONGODB_URI;
-const dbName = 'arStavanger';
+const url = 'mongodb://localhost:27017';
+const dbName = 'simple-login-db';
 
 const client = new MongoClient(url, {
     useNewUrlParser: true,

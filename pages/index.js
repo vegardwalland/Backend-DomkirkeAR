@@ -1,20 +1,17 @@
 import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
-import useSWR from 'swr';
 import Link from 'next/link';
-import cookie from 'js-cookie';
 import Layout from '../components/MyLayout';
+import { useUser, handleLogout } from '../lib/hooks';
 
 function Home() {
-  const {data, revalidate} = useSWR('/api/me', async function(args) {
-    const res = await fetch(args);
-    return res.json();
-  });
-  if (!data) return <h1>Loading...</h1>;
+  const [user, { mutate }] = useUser();
+
   let loggedIn = false;
-  if (data.email) {
+  if (user) {
     loggedIn = true;
   }
+  console.log(user)
   return (
     <Layout>
       <div>
@@ -27,12 +24,9 @@ function Home() {
 
           {loggedIn && (
             <div className="text-center text-xl">
-              <h2 className="mb-4">Welcome {data.email}!</h2>
+              <h2 className="mb-4">Welcome {user.email}!</h2>
               <button className="btn btn-blue"
-                onClick={() => {
-                  cookie.remove('token');
-                  revalidate();
-                }}>
+                onClick={handleLogout()}>
                 Logout
               </button>
             </div>

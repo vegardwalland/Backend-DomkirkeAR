@@ -1,85 +1,79 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const argon2 = require('argon2')
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'SUPERSECRETE20220';
+import assert from 'assert';
+import jwt from 'jsonwebtoken';
+import argon2 from 'argon2';
+import nextConnect from 'next-connect';
+import middleware from '../../middleware/middleware';
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'simple-login-db';
-const loginErrorMessage = "Innlogging mislykkes"
-
-const client = new MongoClient(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const dbCollectionName = 'users';
+const loginErrorMessage = "Innlogging mislykkes";
+const jwtSecret = process.env.JWT_SECRET;
 
 function findUser(db, email, callback) {
-  const collection = db.collection('user');
+  const collection = db.collection(dbCollectionName);
   collection.findOne({email}, callback);
 }
 
 function authUser(db, email, password, hash, callback) {
-  const collection = db.collection('user');
+  const collection = db.collection(dbCollectionName);
   try {
     argon2
       .verify(hash, password)
         .then(callback);
   } catch (err) {
-      console.error("err = " + err);
+      throw err;
   }
 }
 
-export default (req, res) => {
-  if (req.method === 'POST') {
-    //login
-    try {
-      assert.notEqual(null, req.body.email, 'Email required');
-      assert.notEqual(null, req.body.password, 'Password required');
-    } catch (bodyError) {
-      res.status(403).send(bodyError.message);
+const handler = nextConnect();
+
+handler.use(middleware);
+
+handler.post(async (req, res) => {
+  try {
+    assert.notEqual(null, req.body.email, 'Email må fylles ut');
+    assert.notEqual(null, req.body.password, 'Passord må fylles ut');
+    assert.notEqual("", req.body.email, 'Email må fylles ut');
+    assert.notEqual("", req.body.password, 'Passord må fylles ut');
+  } catch (bodyError) {
+    res.status(403).json({error: true, message: bodyError.message});
+    return;
+  }
+
+  const db = req.db;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  findUser(db, email, function(err, user) {
+    if (err) {
+      res.status(500).json({error: true, message: loginErrorMessage});
+      return;
     }
-
-    client.connect(function(err) {
-      assert.equal(null, err);
-      console.log('Connected to MongoDB server =>');
-      const db = client.db(dbName);
-      const email = req.body.email;
-      const password = req.body.password;
-
-      findUser(db, email, function(err, user) {
-        if (err) {
+    // If user is not found return 404
+    if (!user) {
+      res.status(404).json({error: true, message: loginErrorMessage});
+      return;
+    } else { // If user is found in db, try to authenticate.
+      authUser(db, email, password, user.password, function(match) {
+        if (!match) { // Return error if passwords don't match
           res.status(500).json({error: true, message: loginErrorMessage});
-          return;
         }
-        if (!user) {
-          res.status(404).json({error: true, message: loginErrorMessage});
+        if (match) { // Create JSON Web Token if passwords match
+          const token = jwt.sign(
+            {userId: user.userId, email: user.email},
+            jwtSecret,
+            {
+              expiresIn: 3000, //50 minutes
+            },
+          );
+          res.status(200).json({token});
           return;
-        } else {
-          authUser(db, email, password, user.password, function(match) {
-            if (!match) {
-              res.status(500).json({error: true, message: loginErrorMessage});
-            }
-            if (match) {
-              const token = jwt.sign(
-                {userId: user.userId, email: user.email},
-                jwtSecret,
-                {
-                  expiresIn: 3000, //50 minutes
-                },
-              );
-              res.status(200).json({token});
-              return;
-            } else {
-              res.status(401).json({error: true, message: loginErrorMessage});
-              return;
-            }
-          });
+        } else { // Any other reasons for error, return 401.
+          res.status(401).json({error: true, message: loginErrorMessage});
+          return;
         }
       });
-    });
-  } else {
-    // Handle any other HTTP method
-    res.statusCode = 401;
-    res.end();
-  }
-};
+    }
+  });
+});
+
+export default handler;

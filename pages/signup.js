@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import cookie from 'js-cookie';
 import Router from 'next/router';
+import Layout from '../components/MyLayout'
 
 const Signup = () => {
     const [signupError, setSignupError] = useState('');
@@ -10,7 +11,7 @@ const Signup = () => {
   
     function handleSubmit(e) {
         e.preventDefault();
-        fetch('/api/users', {
+        fetch('/api/signupUser', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -34,35 +35,33 @@ const Signup = () => {
     }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>Du yu relly want to sign up?</p>
-      <label htmlFor="email">
-        email
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          name="email"
-          type="email"
-        />
-      </label>
-
-      <br />
-
-      <label for="password">
-        password
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
-          type="password"
-        />
-      </label>
-
-      <br />
-
-      <input type="submit" value="Submit" />
-      {signupError && <p style={{color: 'red'}}>{signupError}</p>}
-    </form>
+    <Layout>
+      <form className="text-center text-blue-500 text-xl align-middle font-bold m-4" onSubmit={handleSubmit}>
+        <div className="block my-auto">
+          <p className="mb-4">Ny Bruker</p>
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+            <input className="form-input w-2/4"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              type="email"
+            />
+            <label className="form-label" htmlFor="password">
+              Passord 
+            </label>
+            <input className="form-input w-2/4"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              type="password"
+            />
+          <input className="btn btn-blue flex mr-auto ml-auto mt-4" type="submit" value="Registrer" />
+          {signupError && <p style={{color: 'red'}}>{signupError}</p>}
+        </div>
+      </form>
+    </Layout>
   );
 };
 

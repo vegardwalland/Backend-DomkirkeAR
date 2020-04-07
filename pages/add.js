@@ -2,13 +2,10 @@ import Layout from '../components/MyLayout';
 import cookie from 'js-cookie';
 import Router from 'next/router';
 import { useEffect } from 'react';
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'SUPERSECRETE20220';
+import jwt from 'jsonwebtoken';
+import { checkLogin } from '../lib/helperFunctions'
 
-let authorized = false;
-if(jwt.decode(cookie.get("token"), jwtSecret) != null){
-  authorized = true;
-}
+let authorized = checkLogin();
 
 function Add() {
 
@@ -24,21 +21,21 @@ function Add() {
                     <fieldset>
                         <legend className="form-title">Detaljer</legend>
                             <div className="form-div"> 
-                                <label className="form-label" for="name">
+                                <label className="form-label" htmlFor="name">
                                     Navn
                                 </label>
                                 <input className="form-input" id="name" type="text"/>
-                                <label className="form-label" for="description">
+                                <label className="form-label" htmlFor="description">
                                     Beskrivelse
                                 </label>
                                 <textarea className="form-input" id="description"/>
                                     <fieldset className="mt-2">
                                         <legend className="form-label"> Posisjon</legend>
-                                        <label className="form-pos-label" for="latitude">
+                                        <label className="form-pos-label" htmlFor="latitude">
                                             Latitude
                                         </label>
                                         <input className="form-pos-input mr-2" id="latitude" type="text"/>
-                                        <label className="form-pos-label" for="longitude">
+                                        <label className="form-pos-label" htmlFor="longitude">
                                             Longitude
                                         </label>
                                         <input className="form-pos-input" id="longitude" type="text"/>

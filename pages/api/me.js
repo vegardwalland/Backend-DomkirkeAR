@@ -1,6 +1,5 @@
-
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'SUPERSECRETE20220';
+import jwt from 'jsonwebtoken';
+const jwtSecret = process.env.JWT_SECRET;
 
 export default (req, res) => {
   if (req.method === 'GET') {
@@ -13,8 +12,8 @@ export default (req, res) => {
     if (token) {
       try {
         decoded = jwt.verify(token, jwtSecret);
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        throw err;
       }
     }
 

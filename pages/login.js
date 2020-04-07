@@ -37,22 +37,30 @@ const Login = () => {
   }
   return (
     <Layout>
-      <form className="text-center text-blue-500 text-xl align-middle" onSubmit={handleSubmit}>
-        <p>Login</p>
-        <input className="mr-4"
+      <form className="text-center text-blue-500 text-xl align-middle font-bold m-4" onSubmit={handleSubmit}>
+      <div className="block my-auto">
+        <p className="mb-4">Logg Inn</p>
+        <label className="form-label" htmlFor="email">
+              Email
+        </label>
+        <input className="form-input w-2/4"
           name="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input className="mr-4"
+        <label className="form-label" htmlFor="password">
+          Passord 
+        </label>
+        <input className="form-input w-2/4"
           name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input className="btn btn-blue" type="submit" value="Submit" />
+        <input className="btn btn-blue flex mr-auto ml-auto mt-4" type="submit" value="Logg Inn" />
         {loginError && <p style={{color: 'red'}}>{loginError}</p>}
+      </div>
       </form>
     </Layout> 
   );

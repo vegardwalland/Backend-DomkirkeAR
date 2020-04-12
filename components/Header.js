@@ -6,10 +6,13 @@ const linkStyle = {
 
 const Header = () => (
   <div>
+    <Link href="/">
+      <a style={linkStyle}>Home</a>
+    </Link>
     <Link href="/add">
       <a style={linkStyle}>Add</a>
     </Link>
-    <Link href="/items">
+    <Link href="/browse">
       <a style={linkStyle}>Browse</a>
     </Link>
   </div>

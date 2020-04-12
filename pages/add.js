@@ -13,6 +13,7 @@ export default function Add() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // TODO Use fetch instead of axioswal
         axioswal.post('api/items', {
             name,
             description,

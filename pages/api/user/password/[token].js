@@ -25,6 +25,7 @@ handler.put(async (req, res) => {
       .collection('tokens')
       .findOneAndDelete({ token: req.query.token, type: 'passwordReset' });
     if (!tokenDoc) throw new Error('Linken er ugyldig');
+    //Hash new password and Update db
     const password = await argon2.hash(req.body.password);
     await req.db
       .collection('users')

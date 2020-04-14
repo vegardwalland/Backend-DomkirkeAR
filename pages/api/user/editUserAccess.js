@@ -1,7 +1,7 @@
 
 import nextConnect from 'next-connect';
-import middleware from '../../middleware/middleware';
-import { findUser } from '../../lib/helperFunctions';
+import middleware from '../../../middleware/middleware';
+import { findUser } from '../../../libs/helperFunctions';
 
 const handler = nextConnect();
 

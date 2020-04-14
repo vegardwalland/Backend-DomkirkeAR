@@ -11,7 +11,7 @@ const Signup = () => {
   
     function handleSubmit(e) {
         e.preventDefault();
-        fetch('/api/signupUser', {
+        fetch('/api/user/signupUser', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

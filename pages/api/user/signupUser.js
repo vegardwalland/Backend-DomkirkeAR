@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import isEmail from 'validator/lib/isEmail';
 import nextConnect from 'next-connect';
-import middleware from '../../middleware/middleware';
-import { findUser } from '../../lib/helperFunctions';
+import middleware from '../../../middleware/middleware';
+import { findUser } from '../../../libs/helperFunctions';
 
 const dbCollectionName = 'users';
 const jwtSecret = process.env.JWT_SECRET;

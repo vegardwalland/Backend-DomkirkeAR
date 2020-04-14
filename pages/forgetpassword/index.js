@@ -1,6 +1,5 @@
 import Layout from '../../components/MyLayout';
 import { useState } from 'react';
-import Router from 'next/router';
 
 const ForgetPasswordPage = () => {
     const [email, setEmail] = useState();
@@ -52,4 +51,3 @@ const ForgetPasswordPage = () => {
   };
 
   export default ForgetPasswordPage;
-  

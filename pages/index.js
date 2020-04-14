@@ -14,7 +14,7 @@ function Home() {
   const [changePassword, setChangePassword] = useState("");
 
   
-  const {data, revalidate} = useSWR('/api/me', async function(args) {
+  const {data, revalidate} = useSWR('/api/user/me', async function(args) {
     const res = await fetch(args);
     return res.json();
   });

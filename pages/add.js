@@ -1,7 +1,7 @@
 import Layout from '../components/MyLayout';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
-import { checkLogin, getTokenData } from '../lib/helperFunctions'
+import { checkLogin, getTokenData } from '../libs/helperFunctions'
 
 let authorized = checkLogin();
 let tokenData = getTokenData();
@@ -27,7 +27,7 @@ function Add() {
 
     function handleChangeUserSubmit(e) {
         e.preventDefault();
-        fetch('api/editUserAccess', {
+        fetch('api/user/editUserAccess', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

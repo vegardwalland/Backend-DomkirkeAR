@@ -70,3 +70,4 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
     };
   
   export default ResetPasswordTokenPage;
+  

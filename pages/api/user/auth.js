@@ -2,7 +2,7 @@ import assert from 'assert';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import nextConnect from 'next-connect';
-import middleware from '../../middleware/middleware';
+import middleware from '../../../middleware/middleware';
 
 const dbCollectionName = 'users';
 const loginErrorMessage = "Innlogging mislykkes";

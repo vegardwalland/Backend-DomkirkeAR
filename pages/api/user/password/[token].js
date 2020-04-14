@@ -30,7 +30,6 @@ handler.put(async (req, res) => {
     await req.db
       .collection('users')
       .updateOne({ email: tokenDoc.userEmail }, { $set: { password } });
-      console.log(tokenDoc.userEmail);
     res.json({ message: 'Ditt passord er endret' });
   } catch (error) {
     res.json({

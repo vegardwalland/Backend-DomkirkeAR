@@ -19,7 +19,6 @@ function Add() {
         }
     });
 
-    console.log(tokenData);
     if(tokenData){
         if(tokenData.editAuthorized){
             ableToEditUsers = true;

@@ -8,7 +8,6 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
     let doc = await req.db.collection(collection).findOne(req);
-    console.log(doc);
     res.json(doc);
 });
 

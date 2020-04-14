@@ -21,7 +21,6 @@ const ForgetPasswordPage = () => {
                 return r.json();
             })
             .then(data => {
-                console.log(data.message);
                 setUserMessage(data.message);
             });
     }

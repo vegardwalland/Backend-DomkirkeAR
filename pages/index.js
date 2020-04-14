@@ -109,15 +109,15 @@ function Home() {
           )}
           
           {!loggedIn && (
-            <div className="text-center text-xl block">
+            <div className="text-center text-xl block text-gray-700">
               <Link href="/login">
-                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-blue-900">Logg inn</a>
+                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Logg inn</a>
               </Link>
               <Link href="/signup">
-                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-blue-900">Registrer bruker</a>
+                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Registrer bruker</a>
               </Link>
               <Link href="/forgetpassword/index">
-                <a className="flex mr-auto ml-auto w-40 hover:text-blue-900">Glemt passord?</a>
+                <a className="flex mr-auto ml-auto w-40 hover:text-gray-900">Glemt passord?</a>
               </Link>
             </div>
           )}

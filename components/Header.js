@@ -1,7 +1,7 @@
 import '../styles/style.css';
 import cookie from 'js-cookie';
 import Router from 'next/router';
-import { checkLogin } from '../lib/helperFunctions'
+import { checkLogin } from '../libs/helperFunctions'
 
 
 //Check if a user is logged in
@@ -20,7 +20,7 @@ const Header = () => (
               cookie.remove('token');
               Router.push('/');
             }}>
-            Logout
+            Logg ut
           </button>
           )}
         </div>

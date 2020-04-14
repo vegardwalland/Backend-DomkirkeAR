@@ -12,9 +12,7 @@ export default (req, res) => {
     if (token) {
       try {
         decoded = jwt.verify(token, jwtSecret);
-      } catch (err) {
-        throw err;
-      }
+      } catch (err) {}
     }
 
     if (decoded) {

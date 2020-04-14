@@ -12,24 +12,24 @@ const Signup = () => {
     function handleSubmit(e) {
         e.preventDefault();
         fetch('/api/signupUser', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              email,
+              password,
+          }),
         })
         .then((r) => r.json())
         .then((data) => {
             if (data && data.error) {
-            setSignupError(data.message);
+              setSignupError(data.message);
             }
             if (data && data.token) {
-            //set cookie
-            cookie.set('token', data.token, {expires: 2});
-            Router.push('/');
+              //set cookie
+              cookie.set('token', data.token, {expires: 2});
+              Router.push('/');
             }
         });
     }

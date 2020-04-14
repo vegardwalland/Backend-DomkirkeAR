@@ -1,38 +1,36 @@
 import assert from 'assert';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
+import isEmail from 'validator/lib/isEmail';
 import nextConnect from 'next-connect';
 import middleware from '../../middleware/middleware';
+import { findUser } from '../../lib/helperFunctions';
 
 const dbCollectionName = 'users';
 const jwtSecret = process.env.JWT_SECRET;
 
-function findUser(db, email, callback) {
-    const collection = db.collection(dbCollectionName);
-    collection.findOne({email}, callback);
-}
-  
-  function createUser(db, email, password, callback) {
-    const collection = db.collection(dbCollectionName);
-    try {
-        argon2.hash(password)
-        .then(hash => {
-        // Store hash in password DB.
-        collection.insertOne(
-            {
-              email,
-              password: hash,
-            },
-            function(err, userCreated) {
-                assert.equal(err, null);
-                callback(userCreated);
-              },);
-            });
-    } catch (err) {
-        //Password not hashed
-        throw err;
-    }
+function createUser(db, email, password, callback) {
+  const collection = db.collection(dbCollectionName);
+  try {
+      argon2.hash(password)
+      .then(hash => {
+      // Store hash in password DB.
+      collection.insertOne(
+          {
+            email,
+            password: hash,
+            editAuthorized: 'true',
+          },
+          function(err, userCreated) {
+              assert.equal(err, null);
+              callback(userCreated);
+            },);
+          });
+  } catch (err) {
+      //Password not hashed
+      throw err;
   }
+}
 
   const handler = nextConnect();
 
@@ -44,6 +42,7 @@ function findUser(db, email, callback) {
       assert.notEqual(null, req.body.password, 'Password required');
       assert.notEqual("", req.body.password, 'Password can\'t be blank');
       assert.notEqual("", req.body.email, 'Email can\'t be blank');
+      assert.notEqual(false, isEmail(req.body.email), 'Skriv inn en gyldig email-adresse');
     } catch (bodyError) {
       res.status(403).json({error: true, message: bodyError.message});
       return;
@@ -66,7 +65,7 @@ function findUser(db, email, callback) {
             if (creationResult.ops.length === 1) {
               const user = creationResult.ops[0];
               const token = jwt.sign(
-                {userId: user.userId, email: user.email},
+                {email: user.email, editAuthorized: user.editAuthorized},
                 jwtSecret,
                 {
                   expiresIn: 3000, //50 minutes
@@ -78,7 +77,7 @@ function findUser(db, email, callback) {
           });
         } else {
           // User exists
-          res.status(403).json({error: true, message: 'Email exists'});
+          res.status(403).json({error: true, message: 'Email er allerede registrert'});
           return;
         }
       });

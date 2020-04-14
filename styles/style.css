@@ -34,7 +34,7 @@
 }
 
 .form-input {
-    @apply appearance-none w-full bg-gray-200 text-gray-700 border border-gray-500 rounded py-3 px-4 leading-tight;
+    @apply appearance-none w-full bg-gray-200 text-gray-900 border border-gray-500 rounded py-3 px-4 leading-tight;
 }
 
 .form-input:hover, .form-input:focus {

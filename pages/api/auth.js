@@ -56,10 +56,11 @@ handler.post(async (req, res) => {
       authUser(db, email, password, user.password, function(match) {
         if (!match) { // Return error if passwords don't match
           res.status(500).json({error: true, message: loginErrorMessage});
+          return;
         }
         if (match) { // Create JSON Web Token if passwords match
           const token = jwt.sign(
-            {userId: user.userId, email: user.email},
+            {email: user.email, editAuthorized: user.editAuthorized},
             jwtSecret,
             {
               expiresIn: 3000, //50 minutes

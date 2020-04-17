@@ -31,4 +31,4 @@ export default function Item(props) {
             <DeleteButton id={props.id}/>
         </div>
     );
-  }
+}

@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "axioswal": "^1.0.1",
+    "formik": "^2.1.4",
     "isomorphic-unfetch": "^3.0.0",
     "mongodb": "^3.5.5",
     "next": "^9.3.4",
@@ -21,6 +22,7 @@
     "react-contenteditable": "^3.3.4",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
-    "swr": "^0.2.0"
+    "swr": "^0.2.0",
+    "yup": "^0.28.3"
   }
 }

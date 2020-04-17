@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
 import axioswal from 'axioswal';
 import Layout from '../components/MyLayout';
+import { Formik, Form, useField } from 'formik';
+import * as Yup from 'yup';
 
 export default function Add() {
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [lat, setLat] = useState(0);
-    const [lon, setLon] = useState(0);
-    const [pictureURI, setPictureURI] = useState('');
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        // TODO Use fetch instead of axioswal
+    const addItem = (values) => {
+        // TODO Use fetch instead of axioswal, but keep those nice animations maybe.
         axioswal.post('api/items', {
-            name,
-            description,
-            lat,
-            lon,
-            pictureURI,
+            name: values.name,
+            description: values.description,
+            lat: values.lat,
+            lon: values.lon,
+            pictureURI: values.pictureURI,
         }).then((data) => {
             if (data.status === 'ok') {
                 ;
@@ -27,51 +20,52 @@ export default function Add() {
         });
     }
 
+    const Input = ({label, ...props}) => {
+        const [field, meta] = useField(props);
+        return (
+            <>
+                <label htmlFor={props.id || props.name}>{label}</label>
+                <input {...field}  {...props} />
+                {meta.touched && meta.error ? (
+                    <div>{meta.error}</div>
+                ) : null }
+            </>
+        )
+    };
+
     return (
         <Layout>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name</label>
-                    <input
-                        type="text"
-                        placeholder="Det gamle posthuset"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </div>
+            <Formik
+                initialValues={{
+                    name: '',
+                    description: '',
+                    lat: '',
+                    lon: '',
+                    pictureURI: '',
+                }}
+                validationSchema={Yup.object({
+                    name: Yup.string().required('Name is required'),
+                    description: Yup.string(),
+                    lat: Yup.number("Latitude must be a number").required("Latitude is required"),
+                    lon: Yup.number("Longitude must be a number").required("Longitude is required"),
+                })}
+                onSubmit={(values, { setSubmitting }) => {
+                    setTimeout(() => {
+                    addItem(values);
+                    setSubmitting(false);
+                    }, 400);
+        }}
+            >
 
-                <div>
-                    <label>Description</label>
-                    <input
-                        type="text"
-                        placeholder="Oppført i 1911, revet i 1972."
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    />
-                </div>
+                <Form>
+                    <Input name='name' label="Name" placeholder="Det gamle posthuset" />
+                    <Input name='description' label="Description" placeholder="Oppført i 1911, revet i 1972." />
+                    <Input name='lat' label="Latitude" placeholder="58.969124" />
+                    <Input name='lon' label="Longitude" placeholder="5.71693" />
 
-                <div>
-                    <label>Latitude</label>
-                    <input
-                        type="text"
-                        placeholder="58.969124"
-                        value={lat}
-                        onChange={e => setLat(e.target.value)}
-                    />
-                </div>
-
-                <div>
-                    <label>Longitude</label>
-                    <input
-                        type="text"
-                        placeholder="5.71693"
-                        value={lon}
-                        onChange={e => setLon(e.target.value)}
-                    />
-                </div>
-
-                <button type="submit">Sign up</button>
-            </form>
+                    <button type="submit">Add</button>
+                </Form>
+            </Formik>
         </Layout>
     );
 }

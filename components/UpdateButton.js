@@ -10,13 +10,7 @@ export default function UpdateButton(props) {
             lat: props.item.lat,
             lon: props.item.lon,
             pictureURI: props.item.pictureURI,
-        }
-        }).then(res => {
-            console.log("Success.");
-            console.log(res);
-        }).catch(err => {
-            console.log("Error.");
-            console.log(err);
+          }
         })
       }}>Update</button>
     </>

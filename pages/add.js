@@ -1,6 +1,6 @@
 import axioswal from 'axioswal';
 import Layout from '../components/MyLayout';
-import { Formik, Form, useField } from 'formik';
+import { Formik, Form, useField, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 
 export default function Add() {
@@ -18,19 +18,6 @@ export default function Add() {
                 ;
             }
         });
-    }
-
-    const Input = ({label, ...props}) => {
-        const [field, meta] = useField(props);
-        return (
-            <>
-                <label htmlFor={props.id || props.name}>{label}</label>
-                <input {...field}  {...props} />
-                {meta.touched && meta.error ? (
-                    <div>{meta.error}</div>
-                ) : null }
-            </>
-        )
     };
 
     return (
@@ -54,16 +41,36 @@ export default function Add() {
                     addItem(values);
                     setSubmitting(false);
                     }, 400);
-        }}
+                }}
             >
 
-                <Form>
-                    <Input name='name' label="Name" placeholder="Det gamle posthuset" />
-                    <Input name='description' label="Description" placeholder="Oppført i 1911, revet i 1972." />
-                    <Input name='lat' label="Latitude" placeholder="58.969124" />
-                    <Input name='lon' label="Longitude" placeholder="5.71693" />
+                <Form className="form-main">
+                    <legend className="form-title">Detaljer</legend>
+                    
+                    <label className="form-label" htmlFor="name">Navn</label>
+                    <Field className="form-input" name="name" placeholder="Det gamle posthuset" />
+                    <ErrorMessage name="name" />
 
-                    <button type="submit">Add</button>
+                    <label className="form-label" htmlFor="description">Beskrivelse</label>
+                    <Field className="form-input" as="textarea" name="description" placeholder="Oppført i 1911, revet i 1972." />
+                    <ErrorMessage name="description" />
+
+                    <fieldset className="mt-2">
+                        <legend className="form-label"> Posisjon</legend>
+                        
+                        <label className="form-pos-label" htmlFor="lat">Latitude</label>
+                        <Field className="form-pos-input" name="lat" placeholder="58.969124" />
+
+                        <label className="form-pos-label" htmlFor="lon">Longitude</label>
+                        <Field className="form-pos-input" name="lon" placeholder="5.71693" />
+                        
+                        <ErrorMessage name="lat" />
+                        <ErrorMessage name="lon" />
+                    </fieldset>
+
+                    <div className="my-2">
+                        <input className="btn btn-blue" type="submit" value="Lagre"/>
+                    </div>
                 </Form>
             </Formik>
         </Layout>

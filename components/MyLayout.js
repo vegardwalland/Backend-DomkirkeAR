@@ -1,19 +1,12 @@
 import Header from './Header';
 
-const layoutStyle = {
-    width: '90%',
-    margin: '100px auto',
-    margin: 20,
-    padding: 20,
-    border: '1px solid #DDD'
-
-};
-
-const Layout = props => (
-    <div style={layoutStyle}>
-        <Header />
-        {props.children}
-    </div>
-);
-
-export default Layout;
+export default function Layout(props) {
+    return (
+        <div className="bg-gray-200 w-full h-screen">
+            <Header />
+            <div className="ml-6 text-blue-700">
+                {props.children}
+            </div>
+        </div>
+    );
+}

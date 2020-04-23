@@ -1,9 +1,10 @@
-import Layout from '../components/MyLayout';
+import ItemList from '../components/ItemList'
+import Layout from '../components/MyLayout'
 
-export default function Browse() {
+export default function Index(props) {
     return (
         <Layout>
-            <p>Items'll show up here.</p>
+            <ItemList />
         </Layout>
     );
-}
+};

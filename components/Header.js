@@ -1,21 +1,45 @@
-import Link from 'next/link';
+import '../styles/style.css';
+import cookie from 'js-cookie';
+import Router from 'next/router';
+import { checkLogin } from '../libs/helperFunctions'
+import Link from 'next/link'
 
-const linkStyle = {
-  marginRight: 15
-};
+export default function Header() {
+    // Check if a user is logged in
+    // TODO Invalidate token server-side when logging out?
+    const showLogoutButton = checkLogin();
+    
+    return (
+        <div className="border-b border-blue-500 w-full">
+            <Link href="/">
+                <a className="nav-item ml-4">Home</a>
+            </Link>
+            <Link href="/add">
+                <a className="nav-item">Add</a>
+            </Link>
+            <Link href="/browse">
+                <a className="nav-item">Browse</a>
+            </Link>
+            <div className="float-right mr-2">
+                {/* Only show logout button if user is logged in */}
+                {showLogoutButton && (<>
 
-const Header = () => (
-  <div>
-    <Link href="/">
-      <a style={linkStyle}>Home</a>
-    </Link>
-    <Link href="/add">
-      <a style={linkStyle}>Add</a>
-    </Link>
-    <Link href="/browse">
-      <a style={linkStyle}>Browse</a>
-    </Link>
-  </div>
-);
+                        <Link href="/settings">
+                            <a className="nav-item">Settings</a>
+                        </Link>
 
-export default Header;
+                        <button
+                            className="nav-item"
+                            onClick={() => {
+                                cookie.remove('token');
+                                Router.push('/');
+                            }}
+                        >
+                        Logg ut
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}

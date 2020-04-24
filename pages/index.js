@@ -1,53 +1,44 @@
 import Head from 'next/head';
-import fetch from 'isomorphic-unfetch';
-import useSWR from 'swr';
+import fetch from '../libs/fetch';
+import useSwr from 'swr';
 import Link from 'next/link';
 import cookie from 'js-cookie';
 import Layout from '../components/MyLayout';
 import { useState } from 'react';
 
 function Home() {
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [changePasswordMessage, setChangePasswordMessage] = useState("");
+    const [changePassword, setChangePassword] = useState("");
 
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [changePasswordMessage, setChangePasswordMessage] = useState("");
-  const [changePassword, setChangePassword] = useState("");
+    const {data, revalidate} = useSwr(`/api/user/me`, fetch);
 
-  
-  const {data, revalidate} = useSWR('/api/user/me', async function(args) {
-    const res = await fetch(args);
-    return res.json();
-  });
-  if (!data) return <h1>Loading...</h1>;
-  let loggedIn = false;
-  if (data.email) {
-    loggedIn = true;
-  }
-  
-  function handleSubmitPasswordChange(e) {
-    e.preventDefault();
-    fetch("/api/user/password/password", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userEmail: data.email,
-        oldPassword,
-        newPassword,
-      }),
-    })
-      .then((r) => {
-        return r.json();
-      })
-      .then(data => {
-        if (data.ok) {
-          setNewPassword("");
-          setOldPassword("");
-        }
-        setChangePasswordMessage(data.message);
-      });
-  }
+    if (!data) return <h1>Loading...</h1>;
+    let loggedIn = false;
+    if (data.email) {
+        loggedIn = true;
+    }
+
+    function handleSubmitPasswordChange(e) {
+        e.preventDefault();
+
+        fetch('/api/user/password/password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify({
+                userEmail: data.email,
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+            })
+        }).then(res => {
+            if (res.ok) {
+                setNewPassword('');
+                setOldPassword('');
+            }
+            setChangePasswordMessage(res.message);
+        });
+    }
 
   return (
     <Layout>
@@ -77,6 +68,7 @@ function Home() {
               </button>
             </div>
           )}
+
           {changePassword && loggedIn && (
             <form onSubmit={handleSubmitPasswordChange} className="align-middle m-4">
               <div className="block my-auto">
@@ -90,7 +82,7 @@ function Home() {
                   onChange={e => setOldPassword(e.target.value)}
                   required
                 />
-                
+
                 <label htmlFor="newpassword" className="form-label">
                   Nytt Passord
                 </label>
@@ -101,13 +93,13 @@ function Home() {
                   onChange={e => setNewPassword(e.target.value)}
                   required
                 />
-                
+
                 <button type="submit" className="btn btn-blue flex mr-auto ml-auto mt-4">Endre Passord</button>
                 {changePasswordMessage && <p style={{color: 'red'}}>{changePasswordMessage}</p>}
               </div>
             </form>
           )}
-          
+
           {!loggedIn && (
             <div className="text-center text-xl block text-gray-700">
               <Link href="/login">

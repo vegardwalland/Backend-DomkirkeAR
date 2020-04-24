@@ -1,111 +1,78 @@
+import axioswal from 'axioswal';
 import Layout from '../components/MyLayout';
-import Router from 'next/router';
-import { useEffect, useState } from 'react';
-import { checkLogin, getTokenData } from '../libs/helperFunctions'
+import { Formik, Form, useField, ErrorMessage, Field } from 'formik';
+import * as Yup from 'yup';
 
-let authorized = checkLogin();
-let tokenData = getTokenData();
-let ableToEditUsers = false;
-let messageColor = '';
+export default function Add() {
 
-function Add() {
-    const [email, setEmail] = useState('');
-    const [editUserMessage, setEditUserMessage] = useState('');
-    
-    useEffect(() => {
-        if(!authorized){
-            Router.replace('/');
-            return;
-        }
-    });
-
-    if(tokenData){
-        if(tokenData.editAuthorized){
-            ableToEditUsers = true;
-        }
-    }
-
-    function handleChangeUserSubmit(e) {
-        e.preventDefault();
-        fetch('api/user/editUserAccess', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-            }),
-        })
-        .then((r) => r.json())
-        .then((data) => {
-            if(data && data.error) {                
-                messageColor = 'red';
-                setEditUserMessage(data.message);
-            }
-            if(data && !data.error) {                
-                messageColor = 'green';
-                setEditUserMessage(data.message);
+    const addItem = (values) => {
+        // TODO Use fetch instead of axioswal, but keep those nice animations maybe.
+        axioswal.post('api/items', {
+            name: values.name,
+            description: values.description,
+            lat: values.lat,
+            lon: values.lon,
+            pictureURI: values.pictureURI,
+        }).then((data) => {
+            if (data.status === 'ok') {
+                ;
             }
         });
-    }
+    };
 
-        return (
-            <Layout>
-                <form action="/api/addItem" method="post" className="form-main">
-                    <fieldset>
-                        <legend className="form-title">Detaljer</legend>
-                            <div className="form-div"> 
-                                <label className="form-label" htmlFor="name">
-                                    Navn
-                                </label>
-                                <input className="form-input" id="name" type="text"/>
-                                <label className="form-label" htmlFor="description">
-                                    Beskrivelse
-                                </label>
-                                <textarea className="form-input" id="description"/>
-                                    <fieldset className="mt-2">
-                                        <legend className="form-label"> Posisjon</legend>
-                                        <label className="form-pos-label" htmlFor="latitude">
-                                            Latitude
-                                        </label>
-                                        <input className="form-pos-input mr-2" id="latitude" type="text"/>
-                                        <label className="form-pos-label" htmlFor="longitude">
-                                            Longitude
-                                        </label>
-                                        <input className="form-pos-input" id="longitude" type="text"/>
-                                    </fieldset>
-                            </div>
-                    </fieldset>
-                    <div className="my-2">
-                    <input className="btn btn-blue" type="submit" value="Lagre"/>
-                    <input className="btn btn-blue" type="submit" value="Avbryt"/>
-                    </div>
-                </form>
-                
-                {ableToEditUsers && 
-                <form className="form-main mt-16" onSubmit={handleChangeUserSubmit}>
-                    <fieldset>
-                        <legend className="form-title">Endre brukertillatelse</legend>
-                            <div className="form-div mb-3"> 
-                                <label className="form-label" htmlFor="email">
-                                    Email
-                                </label>
-                                <input className="form-input" 
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                name="email" 
-                                type="text"/>
-                            </div>
-                    </fieldset>
-                    <div className="my-2">
-                    <input className="btn btn-blue" type="submit" value="Endre brukertilgang"/>
-                    <input className="btn btn-blue" type="submit" value="Avbryt"/>
-                    </div>
-                    {editUserMessage && <p style={{color: messageColor}}>{editUserMessage}</p>}
-                </form>
-                }
-            </Layout>
-        );
-    }
+    return (
+        <Layout>
+            <Formik
+                initialValues={{
+                    name: '',
+                    description: '',
+                    lat: '',
+                    lon: '',
+                    pictureURI: '',
+                }}
+                validationSchema={Yup.object({
+                    name: Yup.string().required('Name is required'),
+                    description: Yup.string(),
+                    lat: Yup.number("Latitude must be a number").required("Latitude is required"),
+                    lon: Yup.number("Longitude must be a number").required("Longitude is required"),
+                })}
+                onSubmit={(values, { setSubmitting }) => {
+                    setTimeout(() => {
+                    addItem(values);
+                    setSubmitting(false);
+                    }, 400);
+                }}
+            >
 
-export default Add;
+                <Form className="form-main">
+                    <legend className="form-title">Detaljer</legend>
+                    
+                    <label className="form-label" htmlFor="name">Navn</label>
+                    <Field className="form-input" name="name" placeholder="Det gamle posthuset" />
+                    <ErrorMessage name="name" />
+
+                    <label className="form-label" htmlFor="description">Beskrivelse</label>
+                    <Field className="form-input" as="textarea" name="description" placeholder="Oppført i 1911, revet i 1972." />
+                    <ErrorMessage name="description" />
+
+                    <fieldset className="mt-2">
+                        <legend className="form-label"> Posisjon</legend>
+                        
+                        <label className="form-pos-label" htmlFor="lat">Latitude</label>
+                        <Field className="form-pos-input" name="lat" placeholder="58.969124" />
+
+                        <label className="form-pos-label" htmlFor="lon">Longitude</label>
+                        <Field className="form-pos-input" name="lon" placeholder="5.71693" />
+                        
+                        <ErrorMessage name="lat" />
+                        <ErrorMessage name="lon" />
+                    </fieldset>
+
+                    <div className="my-2">
+                        <input className="btn btn-blue" type="submit" value="Lagre"/>
+                    </div>
+                </Form>
+            </Formik>
+        </Layout>
+    );
+}

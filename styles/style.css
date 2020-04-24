@@ -37,7 +37,7 @@
     @apply appearance-none w-full bg-gray-200 text-gray-900 border border-gray-500 rounded py-3 px-4 leading-tight;
 }
 
-.form-input:hover, .form-input:focus {
+.form-input:hover, .form-input:focus, .form-pos-input:hover {
     @apply bg-white;
 }
 

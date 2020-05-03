@@ -35,12 +35,12 @@ handler.post(async (req, res) => {
       to: user.email,
       from: process.env.EMAIL_FROM,
       subject: 'Gamle Stavanger AR. Endring av passord.',
-      content: [ 
+      content: [
         {
         type: 'text/html',
-        value: `<b>${user.email}</b>, her er din url for å endre passord: 
+        value: `<b>${user.email}</b>, her er din url for å endre passord:
         ${process.env.WEB_URI}/forgetpassword/${token}`
-      } 
+      }
     ],
     };
     await sgMail.send(msg);

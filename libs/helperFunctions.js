@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const jwtSecret = process.env.JWT_SECRET;
 
-export function checkLogin() { 
+export function checkLogin() {
     let loggedIn = false;
     if (jwt.decode(cookie.get("token"), jwtSecret) != null) {
         loggedIn = true;

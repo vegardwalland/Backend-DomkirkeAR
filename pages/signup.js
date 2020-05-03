@@ -7,8 +7,7 @@ const Signup = () => {
     const [signupError, setSignupError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  
+
     function handleSubmit(e) {
         e.preventDefault();
         fetch('/api/user/signupUser', {
@@ -38,7 +37,7 @@ const Signup = () => {
     <Layout>
       <form className="text-center text-blue-500 text-xl align-middle font-bold m-4" onSubmit={handleSubmit}>
         <div className="block my-auto">
-          <p className="mb-4">Ny Bruker</p>
+          <p className="mb-4">Sign up</p>
             <label className="form-label" htmlFor="email">
               Email
             </label>
@@ -49,7 +48,7 @@ const Signup = () => {
               type="email"
             />
             <label className="form-label" htmlFor="password">
-              Passord 
+              Password
             </label>
             <input className="form-input w-2/4"
               value={password}
@@ -57,7 +56,7 @@ const Signup = () => {
               name="password"
               type="password"
             />
-          <input className="btn btn-blue flex mr-auto ml-auto mt-4" type="submit" value="Registrer" />
+          <input className="btn btn-blue flex mr-auto ml-auto mt-4" type="submit" value="Sign up" />
           {signupError && <p style={{color: 'red'}}>{signupError}</p>}
         </div>
       </form>

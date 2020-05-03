@@ -25,7 +25,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
           setUserMessage(data.message);
         });
     }
-  
+
     return (
       <Layout>
         <div className="text-center text-xl align-middle font-bold">
@@ -33,9 +33,9 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
           {valid ? (
 
               <form onSubmit={handleSubmit} className="">
-                <h2 className="form-title">Glemt passord</h2>
+                <h2 className="form-title">Forgotten password</h2>
                 <div className="block">
-                  <label htmlFor="password" className="form-label">Skriv inn ditt nye passord</label>
+                  <label htmlFor="password" className="form-label">Enter a new password</label>
                   <input className="form-input mb-2 w-1/2"
                     name="password"
                     type="password"
@@ -44,11 +44,11 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
                     onChange={e => setPassword(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="btn btn-blue">Endre passord</button>
+                <button type="submit" className="btn btn-blue">Change password</button>
               </form>
 
           ) : (
-            <p className="form-label">Linken er ikke gyldig lenger</p>
+            <p className="form-label">The link is no longer valid.</p>
           )}
           {userMessage && (<p className="form-label"> {userMessage} </p>)}
         </div>
@@ -68,6 +68,5 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
         .then(bol => bol === 'true');
     return { props: { token, valid } };
     };
-  
+
   export default ResetPasswordTokenPage;
-  

@@ -40,83 +40,81 @@ function Home() {
         });
     }
 
-  return (
-    <Layout>
-      <div className="block text-center text-xl font-bold">
-        <Head>
-          <title>Gamle Stavanger AR</title>
-          <meta classname="viewport" content="initial-scale=1.0, width=device-width" />
-        </Head>
-        <main>
-          <h1 className="text-3xl my-8">Gamle Stavanger AR-portal</h1>
+    return (
+        <Layout>
+            <div className="block text-center text-xl font-bold">
+                <Head>
+                    <title>Gamle Stavanger AR</title>
+                    <meta classname="viewport" content="initial-scale=1.0, width=device-width" />
+                </Head>
+                <main>
+                    <h1 className="text-3xl my-8">Gamle Stavanger AR portal</h1>
 
-          {loggedIn && (
-            <div >
-              <h2 className="my-16 text-gray-700">Velkommen {data.email}</h2>
-              <button className="btn btn-blue"
-                onClick={() => {
-                  cookie.remove('token');
-                  revalidate();
-                }}>
-                Logg ut
-              </button>
-              <button className="btn btn-blue"
-                onClick={() => {
-                  setChangePassword("true");
-                }}>
-                Endre passord
-              </button>
+                    {loggedIn && (
+                        <div>
+                            <h2 className="my-16 text-gray-700">Welcome, {data.email}</h2>
+                            <button className="btn btn-blue"
+                                onClick={() => {
+                                    cookie.remove('token');
+                                    revalidate();
+                                }}>
+                                    Log out
+                            </button>
+                            <button className="btn btn-blue"
+                                onClick={() => {
+                                    setChangePassword("true");
+                                }}>
+                                    Change password
+                            </button>
+                        </div>
+                        )}
+
+                    {changePassword && loggedIn && (
+                        <form onSubmit={handleSubmitPasswordChange} className="align-middle m-4">
+                            <div className="block my-auto">
+                                <label htmlFor="oldpassword" className="form-label">
+                                    Old password
+                                </label>
+                                <input className="form-input w-2/4"
+                                    type="password"
+                                    id="oldpassword"
+                                    value={oldPassword}
+                                    onChange={e => setOldPassword(e.target.value)}
+                                    required
+                                />
+
+                                <label htmlFor="newpassword" className="form-label">
+                                    New password
+                                </label>
+                                <input className="form-input w-2/4"
+                                    type="password"
+                                    id="newpassword"
+                                    value={newPassword}
+                                    onChange={e => setNewPassword(e.target.value)}
+                                    required
+                                />
+
+                                <button type="submit" className="btn btn-blue flex mr-auto ml-auto mt-4">Change password</button>
+                                {changePasswordMessage && <p style={{color: 'red'}}>{changePasswordMessage}</p>}
+                            </div>
+                        </form>
+                    )}
+
+                    {!loggedIn && (
+                        <div className="text-center text-xl block text-gray-700">
+                            <Link href="/login">
+                                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Log in</a>
+                            </Link>
+
+                            <Link href="/signup">
+                                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Sign up</a>
+                            </Link>
+                        </div>
+                    )}
+                </main>
             </div>
-          )}
-
-          {changePassword && loggedIn && (
-            <form onSubmit={handleSubmitPasswordChange} className="align-middle m-4">
-              <div className="block my-auto">
-                <label htmlFor="oldpassword" className="form-label">
-                  Gammelt Passord
-                </label>
-                <input className="form-input w-2/4"
-                  type="password"
-                  id="oldpassword"
-                  value={oldPassword}
-                  onChange={e => setOldPassword(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="newpassword" className="form-label">
-                  Nytt Passord
-                </label>
-                <input className="form-input w-2/4"
-                  type="password"
-                  id="newpassword"
-                  value={newPassword}
-                  onChange={e => setNewPassword(e.target.value)}
-                  required
-                />
-
-                <button type="submit" className="btn btn-blue flex mr-auto ml-auto mt-4">Endre Passord</button>
-                {changePasswordMessage && <p style={{color: 'red'}}>{changePasswordMessage}</p>}
-              </div>
-            </form>
-          )}
-
-          {!loggedIn && (
-            <div className="text-center text-xl block text-gray-700">
-              <Link href="/login">
-                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Logg inn</a>
-              </Link>
-              <Link href="/signup">
-                <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Registrer bruker</a>
-              </Link>
-              <Link href="/forgetpassword/index">
-                <a className="flex mr-auto ml-auto w-40 hover:text-gray-900">Glemt passord?</a>
-              </Link>
-            </div>
-          )}
-        </main>
-      </div>
-    </Layout>
-  );
+        </Layout>
+    );
 }
 
 export default Home;

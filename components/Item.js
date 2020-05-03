@@ -4,7 +4,7 @@ import DeleteButton from './DeleteButton'
 import ContentEditable from 'react-contenteditable'
 
 function handleChange(e){
-    
+
 }
 
 export default function Item(props) {
@@ -16,8 +16,8 @@ export default function Item(props) {
     const details = []
     for (const key in data) {
         details.push(<div key={key}>
-            {key}: 
-            <ContentEditable 
+            {key}:
+            <ContentEditable
                 html={data[key].toString()}
                 onChange={handleChange}
             />

@@ -45,31 +45,31 @@ export default function Add() {
             >
 
                 <Form className="form-main">
-                    <legend className="form-title">Detaljer</legend>
-                    
-                    <label className="form-label" htmlFor="name">Navn</label>
-                    <Field className="form-input" name="name" placeholder="Det gamle posthuset" />
+                    <legend className="form-title">Details</legend>
+
+                    <label className="form-label" htmlFor="name">Name</label>
+                    <Field className="form-input" name="name" placeholder="The old post office building" />
                     <ErrorMessage name="name" />
 
-                    <label className="form-label" htmlFor="description">Beskrivelse</label>
-                    <Field className="form-input" as="textarea" name="description" placeholder="Oppført i 1911, revet i 1972." />
+                    <label className="form-label" htmlFor="description">Description</label>
+                    <Field className="form-input" as="textarea" name="description" placeholder="Constructed in 1911, demolished in 1972." />
                     <ErrorMessage name="description" />
 
                     <fieldset className="mt-2">
-                        <legend className="form-label"> Posisjon</legend>
-                        
+                        <legend className="form-label">Position</legend>
+
                         <label className="form-pos-label" htmlFor="lat">Latitude</label>
                         <Field className="form-pos-input" name="lat" placeholder="58.969124" />
 
                         <label className="form-pos-label" htmlFor="lon">Longitude</label>
                         <Field className="form-pos-input" name="lon" placeholder="5.71693" />
-                        
+
                         <ErrorMessage name="lat" />
                         <ErrorMessage name="lon" />
                     </fieldset>
 
                     <div className="my-2">
-                        <input className="btn btn-blue" type="submit" value="Lagre"/>
+                        <input className="btn btn-blue" type="submit" value="Create"/>
                     </div>
                 </Form>
             </Formik>

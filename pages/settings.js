@@ -12,7 +12,7 @@ let messageColor = '';
 export default function Settings() {
     const [email, setEmail] = useState('');
     const [editUserMessage, setEditUserMessage] = useState('');
-    
+
     // TODO, another way to do redirection?
     useEffect(() => {
         if (!authorized) {
@@ -36,34 +36,34 @@ export default function Settings() {
                 email,
             }
         }).then(res => {
-            if (res && res.error) {                
+            if (res && res.error) {
                 messageColor = 'red';
                 setEditUserMessage(res.message);
             }
-            if (res && !res.error) {                
+            if (res && !res.error) {
                 messageColor = 'green';
                 setEditUserMessage(res.message);
             }
         });
     };
-    
+
     return(
         <Layout>
-            {ableToEditUsers && 
+            {ableToEditUsers &&
             <form className="form-main mt-16" onSubmit={handleChangeUserSubmit}>
                 <fieldset>
-                    <legend className="form-title">Endre brukertillatelse</legend>
-                    <div className="form-div mb-3"> 
+                    <legend className="form-title">Grant item editing abilities</legend>
+                    <div className="form-div mb-3">
                         <label className="form-label" htmlFor="email">Email</label>
-                        <input className="form-input" 
+                        <input className="form-input"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            name="email" 
+                            name="email"
                             type="text"/>
                     </div>
                 </fieldset>
                 <div className="my-2">
-                    <input className="btn btn-blue" type="submit" value="Endre brukertilgang"/>
+                    <input className="btn btn-blue" type="submit" value="Update"/>
                 </div>
                 {editUserMessage && <p style={{color: messageColor}}>{editUserMessage}</p>}
             </form>

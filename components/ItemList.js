@@ -9,7 +9,7 @@ export default function ItemList(props) {
     if (!data) return <div>Loading items...</div>
 
     const itemList = data.map(item => <li key={item._id}><ItemLink item={item} /></li>);
-    
+
     return (
         <div>
             <ul>

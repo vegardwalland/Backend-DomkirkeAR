@@ -14,12 +14,12 @@ handler.post(async (req, res) => {
 
     findUser(db, email, function(err, user) {
         if (err) {
-          res.status(500).json({error: true, message: 'Kunne ikke gjennomføre dette nå'});
+          res.status(500).json({error: true, message: 'An error occurred'});
           return;
         }
         // If user is not found return 404
         if (!user) {
-          res.status(404).json({error: true, message: 'Brukeren finnes ikke'});
+          res.status(404).json({error: true, message: 'Can\'t find user'});
           return;
         } else { // If user is found in db, change privilege.
             db.collection('users').updateOne(
@@ -28,7 +28,7 @@ handler.post(async (req, res) => {
                     $set: { "editAuthorized": "true" }
                 }
             );
-        let userUpdatedResponse = "Bruker " + email + " har fått tilgang til å lage geopunkter";
+        let userUpdatedResponse = "User " + email + " can now create geopoints";
         res.status(200).json({error: false, message: userUpdatedResponse});
         }
     });

@@ -42,7 +42,7 @@ function createUser(db, email, password, callback) {
       assert.notEqual(null, req.body.password, 'Password required');
       assert.notEqual("", req.body.password, 'Password can\'t be blank');
       assert.notEqual("", req.body.email, 'Email can\'t be blank');
-      assert.notEqual(false, isEmail(req.body.email), 'Skriv inn en gyldig email-adresse');
+      assert.notEqual(false, isEmail(req.body.email), 'Email must be a valid email address');
     } catch (bodyError) {
       res.status(403).json({error: true, message: bodyError.message});
       return;
@@ -55,7 +55,7 @@ function createUser(db, email, password, callback) {
     // verify email does not exist already
       findUser(db, email, function(err, user) {
         if (err) {
-          res.status(500).json({error: true, message: 'Error finding User'});
+          res.status(500).json({error: true, message: 'Error creating User'});
           return;
         }
         if (!user) {
@@ -77,7 +77,7 @@ function createUser(db, email, password, callback) {
           });
         } else {
           // User exists
-          res.status(403).json({error: true, message: 'Email er allerede registrert'});
+          res.status(403).json({error: true, message: 'A user with this email already exists'});
           return;
         }
       });

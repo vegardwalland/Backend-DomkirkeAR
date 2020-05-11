@@ -8,11 +8,16 @@ export default function ItemList(props) {
     if (error) return <div>Failed to load list of all items</div>
     if (!data) return <div>Loading items...</div>
 
-    const itemList = data.map(item => <li key={item._id}><ItemLink item={item} /></li>);
+    const itemList = data.map((item, index) => {
+        const altRow = index % 2
+        const altStyling = altRow ? "bg-gray-300" : "";
+        const className = "list-label border border-b-0 border-gray-600 py-4 pl-4 " + altStyling
+        return <li className={className} key={item._id}><ItemLink item={item} /></li>;
+    });
 
     return (
         <div>
-            <ul>
+            <ul className="block mt-4 border-b border-gray-600">
                 {itemList}
             </ul>
         </div>

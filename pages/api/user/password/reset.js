@@ -40,7 +40,7 @@ handler.post(async (req, res) => {
       content: [
         {
         type: 'text/html',
-        value: `<b>${user.email}</b>, here is your url for requested password change:
+        value: `<b>${user.email}</b>, this is your link to change your account's password: \n
         ${process.env.WEB_URI}/forgetpassword/${token}`
       }
     ],

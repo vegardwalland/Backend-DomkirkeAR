@@ -1,7 +1,6 @@
 import useSwr from 'swr'
 import fetch from '../libs/fetch'
 import DeleteButton from './DeleteButton'
-import ContentEditable from 'react-contenteditable'
 
 function handleChange(e){
 
@@ -15,18 +14,17 @@ export default function Item(props) {
 
     const details = []
     for (const key in data) {
-        details.push(<div key={key}>
-            {key}:
-            <ContentEditable
-                html={data[key].toString()}
-                onChange={handleChange}
-            />
+        details.push(<div className="mb-2" key={key}>
+            <h2 className="form-label">{key}:</h2>
+            <div className="ml-2">
+                {data[key].toString()}
+            </div>
         </div>);
     }
 
     return (
-        <div className="item_details">
-            <h1>{data.name}</h1>
+        <div className="item_details mt-4 pl-4 pb-2">
+            <h1 className="form-title">{data.name}</h1>
             {details}
             <DeleteButton id={props.id}/>
         </div>

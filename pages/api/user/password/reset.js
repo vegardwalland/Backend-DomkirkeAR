@@ -5,6 +5,8 @@ import crypto from 'crypto';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+const resMessage = "Email sent. Check your inbox for further instructions"
+
 const handler = nextConnect();
 
 handler.use(middleware);
@@ -17,7 +19,7 @@ handler.post(async (req, res) => {
     if (!user) {
       res.json({
         ok: false,
-        message: 'Denne emailen er ikke registrert.'
+        message: resMessage
       });
       return
     }
@@ -34,17 +36,17 @@ handler.post(async (req, res) => {
     const msg = {
       to: user.email,
       from: process.env.EMAIL_FROM,
-      subject: 'Gamle Stavanger AR. Endring av passord.',
+      subject: 'Gamle Stavanger AR. Password change.',
       content: [
         {
         type: 'text/html',
-        value: `<b>${user.email}</b>, her er din url for å endre passord:
+        value: `<b>${user.email}</b>, this is your link to change your account's password: \n
         ${process.env.WEB_URI}/forgetpassword/${token}`
       }
     ],
     };
     await sgMail.send(msg);
-    res.json({ message: 'Emailen er nå sendt til ' + user.email });
+    res.json({ message: resMessage });
   } catch (error) {
     res.json({
       ok: false,

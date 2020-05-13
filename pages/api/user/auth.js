@@ -5,7 +5,7 @@ import nextConnect from 'next-connect';
 import middleware from '../../../middleware/middleware';
 
 const dbCollectionName = 'users';
-const loginErrorMessage = "Innlogging mislykkes";
+const loginErrorMessage = "Wrong email or password";
 const jwtSecret = process.env.JWT_SECRET;
 
 function findUser(db, email, callback) {
@@ -30,10 +30,10 @@ handler.use(middleware);
 
 handler.post(async (req, res) => {
   try {
-    assert.notEqual(null, req.body.email, 'Email må fylles ut');
-    assert.notEqual(null, req.body.password, 'Passord må fylles ut');
-    assert.notEqual("", req.body.email, 'Email må fylles ut');
-    assert.notEqual("", req.body.password, 'Passord må fylles ut');
+    assert.notEqual(null, req.body.email, 'Email must be filled in');
+    assert.notEqual(null, req.body.password, 'Passord must be filled in');
+    assert.notEqual("", req.body.email, 'Email must be filled in');
+    assert.notEqual("", req.body.password, 'Passord must be filled in');
   } catch (bodyError) {
     res.status(403).json({error: true, message: bodyError.message});
     return;

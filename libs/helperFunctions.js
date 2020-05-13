@@ -3,22 +3,27 @@ import jwt from 'jsonwebtoken';
 
 const jwtSecret = process.env.JWT_SECRET;
 
-export function checkLogin() {
+export function isLoggedIn() {
     let loggedIn = false;
-    if (jwt.decode(cookie.get("token"), jwtSecret) != null) {
-        loggedIn = true;
-        //Check if the token is expired
-        const decoded = jwt.decode(cookie.get("token"), jwtSecret);
-        if (decoded.exp < Date.now().valueOf() / 1000) {
-            loggedIn = false;
-        }
-    }
+
+    const decodedToken = getDecodedToken();
+    if (decodedToken != null)
+        loggedIn = !isTokenExpired(decodedToken);
+
     return loggedIn;
 }
 
+function getDecodedToken() {
+    return jwt.decode(cookie.get("token"), jwtSecret);
+}
+
+function isTokenExpired(decodedToken) {
+    return decodedToken.exp < Date.now().valueOf() / 1000;
+}
+
 export function getTokenData() {
-    if (checkLogin()) {
-        return jwt.decode(cookie.get("token"), jwtSecret);
+    if (isLoggedIn()) {
+        return getDecodedToken();
     }
     return null;
 }

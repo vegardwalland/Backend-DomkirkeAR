@@ -63,7 +63,7 @@ handler.post(async (req, res) => {
             {email: user.email, editAuthorized: user.editAuthorized},
             jwtSecret,
             {
-              expiresIn: 3000, //50 minutes
+              expiresIn: 3000, // 50 minutes
             },
           );
           res.status(200).json({token});

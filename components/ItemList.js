@@ -8,7 +8,11 @@ export default function ItemList(props) {
     if (error) return <div>Failed to load list of all items</div>
     if (!data) return <div>Loading items...</div>
 
-    const itemList = data.map(item => <li key={item._id}><ItemLink item={item} /></li>);
+    const itemList = data.map((item, index) => {
+        const altRow = index % 2
+        const altStyling = altrow ? "bg-gray-500" : "";
+        return <li className=" {altStyling}" key={item._id}><ItemLink item={item} /></li>;
+    });
 
     return (
         <div>

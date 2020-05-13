@@ -1,13 +1,13 @@
 import '../styles/style.css';
 import cookie from 'js-cookie';
 import Router from 'next/router';
-import { checkLogin } from '../libs/helperFunctions'
+import { isLoggedIn } from '../libs/helperFunctions'
 import Link from 'next/link'
 
 export default function Header() {
     // Check if a user is logged in
     // TODO Invalidate token server-side when logging out?
-    const showLogoutButton = checkLogin();
+    const showLogoutButton = isLoggedIn();
 
     return (
         <div className="border-b border-blue-500 w-full">

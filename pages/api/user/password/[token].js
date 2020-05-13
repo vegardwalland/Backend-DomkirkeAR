@@ -6,8 +6,6 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
-
-
 handler.post(async (req, res) => {
   // check valid token
   const tokenDoc = await req.db.collection('tokens').findOne({

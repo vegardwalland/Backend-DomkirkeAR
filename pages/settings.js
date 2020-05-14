@@ -1,10 +1,10 @@
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
-import { checkLogin, getTokenData } from '../libs/helperFunctions';
+import { isLoggedIn, getTokenData } from '../libs/helperFunctions';
 import fetch from '../libs/fetch';
 import Layout from '../components/MyLayout';
 
-let authorized = checkLogin();
+let authorized = isLoggedIn();
 let tokenData = getTokenData();
 let ableToEditUsers = false;
 let messageColor = '';
@@ -16,7 +16,7 @@ export default function Settings() {
     // TODO, another way to do redirection?
     useEffect(() => {
         if (!authorized) {
-            Router.replace('/');
+            Router.push('/');
             return;
         }
     });

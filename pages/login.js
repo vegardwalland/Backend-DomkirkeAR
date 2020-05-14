@@ -11,7 +11,7 @@ const Login = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        //call api
+        // call api
         fetch('/api/user/auth', {
             method: 'POST',
             headers: {
@@ -30,7 +30,7 @@ const Login = () => {
                 setLoginError(data.message);
             }
             if (data && data.token) {
-                //set cookie
+                // set cookie
                 cookie.set('token', data.token, {expires: 1});
                 Router.push('/');
             }

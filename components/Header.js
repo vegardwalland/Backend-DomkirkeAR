@@ -38,7 +38,7 @@ export default function Header() {
                                 Router.push('/');
                             }}
                         >
-                        Logg ut
+                        Log out
                         </button>
                     </>
                 )}

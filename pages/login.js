@@ -38,7 +38,7 @@ const Login = () => {
     };
 
     return (
-        <Layout>
+        <Layout title="Login">
             <form className="text-center text-blue-500 text-xl align-middle font-bold m-4" onSubmit={handleSubmit}>
                 <div className="block my-auto">
                     <p className="mb-4">Log In</p>

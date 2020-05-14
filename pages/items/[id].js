@@ -3,7 +3,7 @@ import Item from '../../components/Item'
 
 export default function Id(props) {
     return (
-        <Layout>
+        <Layout title="Details">
             <Item id={props.url.query.id} />
         </Layout>
     );

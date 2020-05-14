@@ -48,9 +48,9 @@ export default function Settings() {
     };
 
     return(
-        <Layout>
+        <Layout title="Settings">
             {ableToEditUsers &&
-            <form className="form-main mt-16" onSubmit={handleChangeUserSubmit}>
+            <form className="form-main mt-16 ml-6" onSubmit={handleChangeUserSubmit}>
                 <fieldset>
                     <legend className="form-title">Grant item editing abilities</legend>
                     <div className="form-div mb-3">

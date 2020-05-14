@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 
 export default function Index(props) {
     return (
-        <Layout>
+        <Layout title="Browse">
             <ItemList />
         </Layout>
     );

@@ -4,12 +4,8 @@ import Head from 'next/head';
 function PrivacyPolicy() {
 
     return (
-        <Layout>
+        <Layout title="Privacy Policy">
             <div className="block text-center text-xs font-bold">
-                <Head>
-                    <title>Gamle Stavanger AR</title>
-                    <meta classname="viewport" content="initial-scale=1.0, width=device-width" />
-                </Head>
                 <main>
                     <h1 className="text-3xl my-8">Privacy Policy</h1>
                     <div>

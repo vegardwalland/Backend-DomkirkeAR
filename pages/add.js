@@ -3,7 +3,7 @@ import AddItemForm from '../components/AddItemForm';
 
 export default function Add() {
     return (
-        <Layout>
+        <Layout title="Add item">
             <AddItemForm />
         </Layout>
     );

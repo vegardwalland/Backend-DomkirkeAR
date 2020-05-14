@@ -27,7 +27,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
     }
 
     return (
-      <Layout>
+      <Layout title="Forgotten password">
         <div className="text-center text-xl align-middle font-bold">
 
           {valid ? (

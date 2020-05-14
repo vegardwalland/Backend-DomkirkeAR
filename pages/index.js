@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import fetch from '../libs/fetch';
 import useSwr from 'swr';
 import Link from 'next/link';
@@ -45,10 +44,6 @@ function Home() {
         <Layout>
             <body className="flex flex-col">
             <div className="block text-center text-xl font-bold">
-                <Head>
-                    <title>Gamle Stavanger AR</title>
-                    <meta classname="viewport" content="initial-scale=1.0, width=device-width" />
-                </Head>
                 <main>
                     <h1 className="text-3xl my-8">Gamle Stavanger AR portal</h1>
 

@@ -70,7 +70,7 @@ function createUser(db, email, password, callback) {
             collection.insertOne({
                 email,
                 password: hash,
-                editAuthorized: editAuthorized,
+                editAuthorized: 'true',
             },
             function(err, userCreated) {
                 assert.equal(err, null);

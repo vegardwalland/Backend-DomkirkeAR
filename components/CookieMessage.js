@@ -50,7 +50,7 @@ const message = "Gamle Stavanger AR portal uses cookies to improve your experien
             <CookieBanner
                 styles={styles}
                 message={message}
-                link={<a href='/privacy-notice'>More information on our privacy policy here</a>}
+                link={<a href='/privacy-policy'>More information on our privacy policy here</a>}
                 buttonMessage='Accept'
                 onAccept={() => {
                   cookie.set('cookie-permission', 'user-has-accepted-cookies')

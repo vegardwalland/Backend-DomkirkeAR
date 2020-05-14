@@ -21,6 +21,9 @@ export default function Header() {
                 <a className="nav-item">Browse</a>
             </Link>
             <div className="float-right mr-2">
+                <Link href="/privacy-policy">
+                    <a className="nav-item">Privacy Policy</a>
+                </Link>
                 {/* Only show logout button if user is logged in */}
                 {showLogoutButton && (<>
 

@@ -117,7 +117,7 @@ function Home() {
                     )}
                 </main>
             </div>
-            <footer className="absolute bottom-0 mx-auto">
+            <footer className="absolute bottom-0 w-full">
                 <CookieMessage>
                 </CookieMessage>
             </footer>

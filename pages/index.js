@@ -5,6 +5,7 @@ import Link from 'next/link';
 import cookie from 'js-cookie';
 import Layout from '../components/MyLayout';
 import { useState } from 'react';
+import CookieMessage from '../components/CookieMessage';
 
 function Home() {
     const [oldPassword, setOldPassword] = useState("");
@@ -42,6 +43,7 @@ function Home() {
 
     return (
         <Layout>
+            <body className="flex flex-col">
             <div className="block text-center text-xl font-bold">
                 <Head>
                     <title>Gamle Stavanger AR</title>
@@ -109,10 +111,17 @@ function Home() {
                             <Link href="/signup">
                                 <a className="flex mr-auto ml-auto mb-8 w-40 hover:text-gray-900">Sign up</a>
                             </Link>
+                            <div>
+                            </div>
                         </div>
                     )}
                 </main>
             </div>
+            <footer className="absolute bottom-0 mx-auto">
+                <CookieMessage>
+                </CookieMessage>
+            </footer>
+            </body>
         </Layout>
     );
 }

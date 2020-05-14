@@ -1,12 +1,8 @@
 @tailwind base;
 @tailwind components;
 
-
-
-
 .nav-item {
   @apply inline-block py-2 mr-6 text-blue-500 font-semibold;
-
 }
 
 .nav-item:hover {
@@ -80,6 +76,5 @@
 .btn-green:hover {
   @apply bg-green-800;
 }
-
 
 @tailwind utilities;

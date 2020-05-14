@@ -8,7 +8,7 @@ const styles = {
   banner: {
     fontFamily: 'Source Sans Pro',
     height: 57,
-    background: 'rgba(52, 64, 81, 0.88) url(/cookie.png) 20px 50% no-repeat',
+    background: 'rgba(52, 64, 81, 0.88)',
     backgroundSize: '30px 30px',
     backgroundColor: '',
     fontSize: '15px',

@@ -1,10 +1,7 @@
 import useSwr from 'swr'
 import fetch from '../libs/fetch'
 import DeleteButton from './DeleteButton'
-
-function handleChange(e){
-
-}
+import EditButton from './EditButton'
 
 export default function Item(props) {
     const {data, error} = useSwr(`/api/items/${props.id}`, fetch)
@@ -26,6 +23,7 @@ export default function Item(props) {
         <div className="item_details mt-4 pl-4 pb-2">
             <h1 className="form-title">{data.name}</h1>
             {details}
+            <EditButton id={props.id}/>
             <DeleteButton id={props.id}/>
         </div>
     );

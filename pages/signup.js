@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import cookie from 'js-cookie';
 import Router from 'next/router';
-import Layout from '../components/MyLayout'
+import Layout from '../components/Layout'
 
 const Signup = () => {
     const [signupError, setSignupError] = useState('');

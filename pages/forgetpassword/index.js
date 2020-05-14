@@ -1,4 +1,4 @@
-import Layout from '../../components/MyLayout';
+import Layout from '../../components/Layout';
 import { useState } from 'react';
 
 const ForgetPasswordPage = () => {
@@ -26,8 +26,6 @@ const ForgetPasswordPage = () => {
 
     return (
       <Layout>
-
-
         <form className="text-center text-blue-500 align-middle m-4" onSubmit={handleSubmit}>
         <h2 className="form-title text-xl font-bold">Have you forgotten your password?</h2>
           <div className="block my-auto">
@@ -44,8 +42,6 @@ const ForgetPasswordPage = () => {
             {userMessage && (<p className="mt-3"> {userMessage}</p>)}
           </div>
         </form>
-
-
       </Layout>
     );
   };

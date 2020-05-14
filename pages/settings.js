@@ -2,7 +2,7 @@ import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { isLoggedIn, getTokenData } from '../libs/helperFunctions';
 import fetch from '../libs/fetch';
-import Layout from '../components/MyLayout';
+import Layout from '../components/Layout';
 
 let authorized = isLoggedIn();
 let tokenData = getTokenData();

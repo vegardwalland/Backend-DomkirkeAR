@@ -1,4 +1,4 @@
-import Layout from '../../components/MyLayout';
+import Layout from '../../components/Layout';
 import EditItemForm from '../../components/EditItemForm'
 
 export default function Id(props) {

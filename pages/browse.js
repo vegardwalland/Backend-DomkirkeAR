@@ -1,5 +1,5 @@
 import ItemList from '../components/ItemList';
-import Layout from '../components/MyLayout';
+import Layout from '../components/Layout';
 
 export default function Index(props) {
     return (

@@ -9,8 +9,6 @@ export default function ItemInput(props) {
         buttonText = "Update";
     }
 
-    console.log(props.item);
-
     return(
         <Formik
             initialValues={{
@@ -30,7 +28,6 @@ export default function ItemInput(props) {
             onSubmit={(values, { setSubmitting }) => {
                 // TODO Disable button on click for a timeout
                 setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
                     props.handleSubmit(values);
                     setSubmitting(false);
                 }, 400);

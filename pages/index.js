@@ -3,7 +3,7 @@ import fetch from '../libs/fetch';
 import useSwr from 'swr';
 import Link from 'next/link';
 import cookie from 'js-cookie';
-import Layout from '../components/MyLayout';
+import Layout from '../components/Layout';
 import { useState } from 'react';
 import CookieMessage from '../components/CookieMessage';
 

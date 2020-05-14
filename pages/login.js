@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import cookie from 'js-cookie';
-import Layout from '../components/MyLayout';
+import Layout from '../components/Layout';
 
 const Login = () => {
     const [loginError, setLoginError] = useState('');

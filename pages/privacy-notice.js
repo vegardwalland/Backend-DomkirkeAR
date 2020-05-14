@@ -1,7 +1,5 @@
-import Layout from "../components/MyLayout";
+import Layout from "../components/Layout";
 import Head from 'next/head';
-
-
 
 function PrivacyPolicy() {
 
@@ -25,7 +23,7 @@ function PrivacyPolicy() {
                             Your data will never be sold. <br/>
                             Your email is only used to authenticate log in and reset password. <br/>
                             Item data is only used to create AR objects in Gamle Stavanger AR Android application
-                        
+
                         </p>
                         <h2 className="my-5 text-gray-700 text-sm">How do we use cookies?</h2>
                         <p>
@@ -46,7 +44,7 @@ function PrivacyPolicy() {
                             <li>The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions.
                             </li>
                             <li>The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.
-                            </li>                                                 
+                            </li>
                         </ul>
                         <h3 className="my-2 text-gray-700 ">Contact us at: { process.env.ADMIN_EMAIL  }</h3>
                     </div>

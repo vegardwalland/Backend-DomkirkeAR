@@ -13,7 +13,6 @@ handler.post(async (req, res) => {
     let {name, description, lat, lon, pictureURI} = req.body;
     lat = parseFloat(lat);
     lon = parseFloat(lon);
-    console.log({name, description, lat, lon, pictureURI} = req.body);
 
     if (name === undefined || name === null || name === "") {
         return Promise.reject(Error("Name can not be empty."));

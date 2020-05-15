@@ -61,7 +61,6 @@ handler.patch(async (req, res) => {
       },
     )
     .then(dbRes => {
-        console.log(dbRes)
         if (dbRes.result.nModified === 0) {
             return Promise.reject(Error("Item doesn't exist."));
         }

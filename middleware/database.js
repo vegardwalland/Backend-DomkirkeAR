@@ -27,6 +27,10 @@ async function database(req, res, next) {
 
 function sanitizeAll(obj) {
     // Sanitizes everything in the object
+    if (typeof obj === "string") {
+        return obj;
+    }
+
     Object.keys(obj).forEach(param => {
             obj[param] = sanitize(obj[param])
     })

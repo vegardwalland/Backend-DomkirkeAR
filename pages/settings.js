@@ -32,9 +32,9 @@ export default function Settings() {
 
         fetch('api/user/editUserAccess', {
             method: 'POST',
-            body: {
+            body: JSON.stringify({
                 email,
-            }
+            })
         }).then(res => {
             if (res && res.error) {
                 messageColor = 'red';

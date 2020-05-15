@@ -42,7 +42,7 @@ function PrivacyPolicy() {
                             <li>The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.
                             </li>
                         </ul>
-                        <h3 className="my-2 text-gray-700 ">Contact us at: { process.env.ADMIN_EMAIL  }</h3>
+                        <h3 className="my-2 text-gray-700 ">Contact us at: { process.env.ADMIN_EMAIL }</h3>
                     </div>
                 </main>
             </div>

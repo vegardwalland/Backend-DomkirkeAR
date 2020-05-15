@@ -10,9 +10,9 @@ handler.use(middleware);
 // Deletes an item
 handler.delete(async (req, res) => {
     req.db.collection(collection).deleteOne({_id: new ObjectId(req.query.id)}).then(() => {
-        res.status(201).send({
+        res.status(200).send({
             status: 'ok',
-            message: 'Item has been deleted.'
+            message: 'Item has been deleted or didn\' exist.'
         });
     })
     .catch(error => res.send({
@@ -40,7 +40,15 @@ handler.patch(async (req, res) => {
     lat = parseFloat(lat);
     lon = parseFloat(lon);
 
-    await req.db.collection(collection).updateOne(
+    if (isNaN(lat) || isNaN(lon)) {
+        return Promise.reject(Error('Couldn\'t read GPS coordinates.'));
+    }
+
+    if (name === undefined || name === null || name === "") {
+        return Promise.reject(Error("Name can not be empty."));
+    }
+
+    req.db.collection(collection).updateOne(
       { _id: new ObjectId(req.query.id) },
       {
         $set: {
@@ -51,8 +59,20 @@ handler.patch(async (req, res) => {
          "pictureURI": pictureURI,
         },
       },
-    );
-    res.json({ item: { name, description, lat, lon, pictureURI } });
-  });
+    )
+    .then(dbRes => {
+        console.log(dbRes)
+        if (dbRes.result.nModified === 0) {
+            return Promise.reject(Error("Item doesn't exist."));
+        }
+        res.status(200).send({
+        status: 'ok',
+        message: 'Item has been updated.'
+        });
+    }).catch(error => res.send({
+        status: 'error',
+        message: error.toString(),
+    }));
+});
 
 export default handler;

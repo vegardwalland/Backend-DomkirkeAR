@@ -13,14 +13,19 @@ handler.post(async (req, res) => {
     let {name, description, lat, lon, pictureURI} = req.body;
     lat = parseFloat(lat);
     lon = parseFloat(lon);
+    console.log({name, description, lat, lon, pictureURI} = req.body);
+
+    if (name === undefined || name === null || name === "") {
+        return Promise.reject(Error("Name can not be empty."));
+    }
+
+    if (isNaN(lat) || isNaN(lon)) {
+        return Promise.reject(Error('Couldn\'t read GPS coordinates.'));
+    }
 
     return req.db.collection(collection).countDocuments( {name} ).then((count) => {
         if (count) {
             return Promise.reject(Error('An item with that name already exists.'));
-        }
-
-        if (isNaN(lat) || isNaN(lon)) {
-            return Promise.reject(Error('Couldn\'t read GPS coordinates.'));
         }
 
         req.db.collection(collection).insertOne({
@@ -31,13 +36,10 @@ handler.post(async (req, res) => {
             pictureURI,
         });
     })
-    .then(() => {
-        res.status(201).send({
+    .then(() => res.status(201).send({
             status: 'ok',
             message: 'Item has been created.'
-        });
-    })
-    .catch(error => res.send({
+    })).catch(error => res.status(500).send({
         status: 'error',
         message: error.toString(),
     }));
